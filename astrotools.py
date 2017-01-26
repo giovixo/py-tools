@@ -1,3 +1,12 @@
+def info():
+    """
+    Description: Print some infos
+
+    Usage: info()
+    """
+    print "This module contains some tool to compute periods and velocity." 
+    pass
+
 def period(radius=10, m1=2.959139768995959E-04, m2=2.959139768995959E-04):
      """
      Return the period in days of the binary star system
