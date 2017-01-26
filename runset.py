@@ -10,7 +10,8 @@ def info():
     Usage: info()
     """
     print "This model contains some tools to prepare the swifter runs, " \
-          "like create a directory, setting the init files, and so on."
+          "like create a directory, setting the init files, and so on." \
+          " Have fun!"
     pass
 
 def mkdir():
@@ -30,10 +31,10 @@ def mkdir():
     _ the value
     """
     print "Please, insert the initial conditions."
-    pm   = raw_input("Mass of the planet: ")
-    mu   = raw_input("Stellar mass ratio: ")
-    dist = raw_input("Distance of the planet from the primary star: ")
-    ecc  = raw_input("Eccentry of the planetary orbit: ")
+    pm   = raw_input("Mass of the planet (in unit of Jupiter mass, default 00): ") or "00"
+    mu   = raw_input("Stellar mass ratio (mu = m2 / (m1 + m2) , default 0.50): ") or "0.50"
+    dist = raw_input("Distance of the planet from the primary star(in utit of the distance betwenn the two stars, default 0.200): ") or "0.200"
+    ecc  = raw_input("Eccentry of the planetary orbit (default 0.0): ") or "0.0"
 
     dirName = 'pm' + str(pm) + '_mu' + str(mu) + '_dist' + str(dist) + '_ecc' + str(ecc)
 
@@ -56,8 +57,12 @@ def copy(dirName):
 
 def create():
     """
-    Description: Create a swifter dir, ready for the next run
+    Description:  create a swifter dir ready for the next run.
 
     Usage: create()
     """
+    # Create the directory
+    mkdir()
+    # Copy the parameter files into the directory
+    copy()
     pass
