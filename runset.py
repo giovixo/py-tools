@@ -1,7 +1,7 @@
 import os
 
-SWIFTERTEMPLATE = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/SwifterTemplate/'
-SWIFTERBIN ='/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/SwifterCode/swifter/bin'
+SWIFTERBIN ='/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/SwifterCode/swifter/bin/'
+SWIFTERROOT = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/TypeS/massEqZero/'
 
 def info():
     """
@@ -51,9 +51,21 @@ def copy(dirName):
            <dirName> is the destination dir
     """
     from shutil import copyfile
+    # copy the main template files into the main working directory
+    os.makedirs(dirName+'/main')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
-        copyfile(SWIFTERTEMPLATE+file, dirName+'/'+file)
+        copyfile(SWIFTERROOT+'swifter_template_main/' + file, dirName+'/main/'+file)
+    # copy the tail template files into the main working directory
+    os.makedirs(dirName+'/tail')
+    for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
+        copyfile(SWIFTERROOT+'swifter_template_tail/' + file, dirName+'/tail/'+file)
+    # copy the unperturbed template files into the main working directory
+    os.makedirs(dirName+'/unperturbed')
+    for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
+        copyfile(SWIFTERROOT+'swifter_template_unperturbed/' + file, dirName+'/unperturbed/'+file)
+
     pass
+
 
 def create():
     """
@@ -62,7 +74,12 @@ def create():
     Usage: create()
     """
     # Create the directory
-    mkdir()
+    print "Creating the working directory..."
+    directory = mkdir()
+    print "***"
+    print "The dir " + directory + " is ready"
     # Copy the parameter files into the directory
-    copy()
+    copy(directory)
+    print "All the templates are copied into the dir " + directory + ". You can change some default values and run the integrations."
+    print "***"
     pass
