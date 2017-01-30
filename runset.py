@@ -1,7 +1,8 @@
 import os
 
 SWIFTERBIN ='/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/SwifterCode/swifter/bin/'
-SWIFTERROOT = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/TypeS/massEqZero/'
+
+ROOT = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/TypeS/massEqZero/'
 
 def info():
     """
@@ -19,6 +20,7 @@ def mkdir():
     Description: Create a new directory for a swifter run
 
     Usage: mkdir()
+    Return: [dirName, float(dist)]
 
     Directory naming:
     pm_mu_dist_ecc_
@@ -40,7 +42,7 @@ def mkdir():
 
     os.makedirs(dirName)
 
-    return dirName
+    return [dirName, float(dist)]
 
 def copy(dirName):
     """
@@ -54,15 +56,15 @@ def copy(dirName):
     # copy the main template files into the main working directory
     os.makedirs(dirName+'/main')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
-        copyfile(SWIFTERROOT+'swifter_template_main/' + file, dirName+'/main/'+file)
+        copyfile(ROOT+'swifter_template_main/' + file, dirName+'/main/'+file)
     # copy the tail template files into the main working directory
     os.makedirs(dirName+'/tail')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
-        copyfile(SWIFTERROOT+'swifter_template_tail/' + file, dirName+'/tail/'+file)
+        copyfile(ROOT+'swifter_template_tail/' + file, dirName+'/tail/'+file)
     # copy the unperturbed template files into the main working directory
     os.makedirs(dirName+'/unperturbed')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
-        copyfile(SWIFTERROOT+'swifter_template_unperturbed/' + file, dirName+'/unperturbed/'+file)
+        copyfile(ROOT+'swifter_template_unperturbed/' + file, dirName+'/unperturbed/'+file)
 
     pass
 
@@ -75,11 +77,20 @@ def create():
     """
     # Create the directory
     print "Creating the working directory..."
-    directory = mkdir()
-    print "***"
-    print "The dir " + directory + " is ready"
-    # Copy the parameter files into the directory
+    [directory, distance] = mkdir()
+
+    # Copy the templates into the directory/[main, tail, unperturbed]
     copy(directory)
+
+    # Change the distance from the star in tp.in files at the directories [main, unperturbed]
+    # ...
+
+    # Update pl.in and tp.in into the tail directory
+    # ...
+
+    print "***"
+    print "Distance ratio: " + str(distance)
+    print "The dir " + directory + " is ready"
     print "All the templates are copied into the dir " + directory + ". You can change some default values and run the integrations."
     print "***"
     pass
