@@ -1,4 +1,5 @@
 import os
+from shutil import copyfile
 
 SWIFTERBIN ='/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/SwifterCode/swifter/bin/'
 
@@ -52,7 +53,6 @@ def copy(dirName):
            Where:
            <dirName> is the destination dir
     """
-    from shutil import copyfile
     # copy the main template files into the main working directory
     os.makedirs(dirName+'/main')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
@@ -68,6 +68,33 @@ def copy(dirName):
 
     pass
 
+def update_distance(file_in, dist):
+    """
+    Update the distance in the tp.in file
+
+    Usage: update_distance(file_full_path, dist)
+    """
+    import astrotools
+
+    # Read the file
+    fin = open(file_in, 'r')
+    lines = []
+    for line in fin:
+        lines.append(line)
+    fin.close()
+    # Change the rows relate to the planetary distance from the star
+    firstRow  = lines[2].split()
+    firstRow[0] = str(10.*dist)
+    lines[2] = " ".join(firstRow) + "\n"
+    secondRow = lines[3].split()
+    secondRow[1] = str(astrotools.vplanet(10.*dist))
+    lines[3] = " ".join(secondRow) + "\n"
+    # Write the file
+    fout = open('test_particle.in','w')
+    fout.writelines(lines)
+    fout.close()
+
+    pass
 
 def create():
     """
@@ -83,14 +110,15 @@ def create():
     copy(directory)
 
     # Change the distance from the star in tp.in files at the directories [main, unperturbed]
-    # ...
-
-    # Update pl.in and tp.in into the tail directory
-    # ...
+    tp_root = ROOT + directory + "/main/"
+    update_distance(tp_root+"tp.in", distance)
+    copyfile(ROOT+"test_particle.in", ROOT + directory + "/main/" + "tp.in")
+    copyfile(ROOT+"test_particle.in", ROOT + directory + "/unperturbed/" + "tp.in")
+    os.remove("test_particle.in")
 
     print "***"
     print "Distance ratio: " + str(distance)
     print "The dir " + directory + " is ready"
-    print "All the templates are copied into the dir " + directory + ". You can change some default values and run the integrations."
+    print "All the necessary files into the dir " + directory + "/[main, unperturbed]. You can now run the integrations in these directories."
     print "***"
     pass
