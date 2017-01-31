@@ -1,7 +1,7 @@
 Some usefull tools
 
-evaluate.py : to evaluate stuff like planetary initial velocity and so on
+astrotools.py : to evaluate stuff like planetary initial velocity and so on
 
-view.py : to visualize the simulation results, like orbits and so on
+astrovis.py : to visualize the simulation results, like orbits and so on
 
 runset.py : to create directories, prepare the init files for the run, run an itegration and so on
