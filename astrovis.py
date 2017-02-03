@@ -23,13 +23,13 @@ def plot(fileName):
     pylab.show()
     pass
 
-def plot_planet():
+def plot_planet(fileName='planet.dat'):
     """
     Description: plot the planetary orbit
 
     Usage: plot_planet()
     """
-    plot('planet.dat')
+    plot(fileName)
     pass
 
 def plot_star():
