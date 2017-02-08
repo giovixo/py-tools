@@ -4,6 +4,7 @@ from shutil import copyfile
 SWIFTERBIN ='/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/SwifterCode/swifter/bin/'
 
 ROOT = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/TypeS/massEqZero/'
+#ROOT = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/TypeS/massEqMj/'
 
 def info():
     """
@@ -56,15 +57,21 @@ def copy(dirName):
     # copy the main template files into the main working directory
     os.makedirs(dirName+'/main')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
-        copyfile(ROOT+'swifter_template_main/' + file, dirName+'/main/'+file)
+        fileSrc = ROOT+'swifter_template_main/' + file
+        if os.path.exists(fileSrc):
+            copyfile(fileSrc, dirName+'/main/'+file)
     # copy the tail template files into the main working directory
     os.makedirs(dirName+'/tail')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
-        copyfile(ROOT+'swifter_template_tail/' + file, dirName+'/tail/'+file)
+        fileSrc = ROOT+'swifter_template_tail/' + file
+        if os.path.exists(fileSrc):
+            copyfile(fileSrc, dirName+'/tail/'+file)
     # copy the unperturbed template files into the main working directory
     os.makedirs(dirName+'/unperturbed')
     for file in ['param.in', 'pl.in', 'tp.in', 'accuracy.in', 'particle_id.in']:
-        copyfile(ROOT+'swifter_template_unperturbed/' + file, dirName+'/unperturbed/'+file)
+        fileSrc = ROOT+'swifter_template_unperturbed/' + file
+        if os.path.exists(fileSrc):
+                copyfile(fileSrc, dirName+'/unperturbed/'+file)
 
     pass
 
@@ -119,6 +126,6 @@ def create():
     print "***"
     print "Distance ratio: " + str(distance)
     print "The dir " + directory + " is ready"
-    print "All the necessary files into the dir " + directory + "/[main, unperturbed]. You can now run the integrations in these directories."
+    print "All the necessary files are into the dir " + directory + "/[main, unperturbed]. You can now run the integrations in these directories."
     print "***"
     pass
