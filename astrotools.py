@@ -4,7 +4,7 @@ def info():
 
     Usage: info()
     """
-    print "This module contains some tool to compute periods and velocity." 
+    print "This module contains some tool to compute periods and velocity."
     pass
 
 def period(radius=10, m1=2.959139768995959E-04, m2=2.959139768995959E-04):
@@ -57,7 +57,7 @@ def vplanet(distance, mass=0):
     """
     Return the velocity of massive planet from the primary star A (1 solar mass) in a circular orbit.
 
-    velocity = np.sqrt( ( G * ( 1. + mass ) ) / distance )
+    velocity = np.sqrt( ( G * ( mass_of_the_star + mass ) ) / distance )
     In the swifter units G = 1
 
     Usage:
