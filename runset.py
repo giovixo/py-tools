@@ -3,8 +3,7 @@ from shutil import copyfile
 
 SWIFTERBIN ='/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/SwifterCode/swifter/bin/'
 
-ROOT = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/TypeS/massEqZero/'
-#ROOT = '/Users/giovanni/Works/Exoplanets/StudyOfStabilyInBinarySystems/TypeS/massEqMj/'
+ROOT = os.getcwd() + '/'
 
 def info():
     """
@@ -44,7 +43,7 @@ def mkdir():
 
     os.makedirs(dirName)
 
-    return [dirName, float(dist)]
+    return [dirName, float(dist), float(pm)]
 
 def copy(dirName):
     """
@@ -75,11 +74,12 @@ def copy(dirName):
 
     pass
 
-def update_distance(file_in, dist):
+def update_distance(file_in, dist, mass=0):
     """
     Update the distance in the tp.in file
 
-    Usage: update_distance(file_full_path, dist)
+    Usage: update_distance(file_full_path, dist, mass)
+    mass is the mass of the planet in solar mass units
     """
     import astrotools
 
@@ -89,15 +89,24 @@ def update_distance(file_in, dist):
     for line in fin:
         lines.append(line)
     fin.close()
-    # Change the rows relate to the planetary distance from the star
-    firstRow  = lines[2].split()
-    firstRow[0] = str(10.*dist)
-    lines[2] = " ".join(firstRow) + "\n"
-    secondRow = lines[3].split()
-    secondRow[1] = str(astrotools.vplanet(10.*dist))
-    lines[3] = " ".join(secondRow) + "\n"
+    if not(mass):
+        # Change the rows relate to the planetary distance from the star
+        firstRow  = lines[2].split()
+        firstRow[0] = str(10.*dist)
+        lines[2] = " ".join(firstRow) + "\n"
+        secondRow = lines[3].split()
+        secondRow[1] = str(astrotools.vplanet(10.*dist))
+        lines[3] = " ".join(secondRow) + "\n"
+    else:
+        # Change the rows relate to the planetary distance from the star
+        firstRow  = lines[8].split()
+        firstRow[0] = str(10.*dist)
+        lines[8] = " ".join(firstRow) + "\n"
+        secondRow = lines[9].split()
+        secondRow[1] = str(astrotools.vplanet(10.*dist, mass))
+        lines[9] = " ".join(secondRow) + "\n"
     # Write the file
-    fout = open('test_particle.in','w')
+    fout = open('particle.in','w')
     fout.writelines(lines)
     fout.close()
 
@@ -105,27 +114,40 @@ def update_distance(file_in, dist):
 
 def create():
     """
-    Description:  create a swifter dir ready for the next run.
+    Description:  create a swifter dir ready for the run.
 
     Usage: create()
     """
+    
+    # Mass of Jupiter in solar mass
+    massOfJupyter = 0.0009543
+
     # Create the directory
     print "Creating the working directory..."
-    [directory, distance] = mkdir()
+    [directory, distance, mass] = mkdir()
 
     # Copy the templates into the directory/[main, tail, unperturbed]
     copy(directory)
 
-    # Change the distance from the star in tp.in files at the directories [main, unperturbed]
-    tp_root = ROOT + directory + "/main/"
-    update_distance(tp_root+"tp.in", distance)
-    copyfile(ROOT+"test_particle.in", ROOT + directory + "/main/" + "tp.in")
-    copyfile(ROOT+"test_particle.in", ROOT + directory + "/unperturbed/" + "tp.in")
-    os.remove("test_particle.in")
+    if not(mass):
+        # Change the distance from the star in tp.in files at the directories [main, unperturbed]
+        tp_root = ROOT + directory + "/main/"
+        update_distance(tp_root+"tp.in", distance)
+        copyfile(ROOT+"particle.in", ROOT + directory + "/main/" + "tp.in")
+        copyfile(ROOT+"particle.in", ROOT + directory + "/unperturbed/" + "tp.in")
+    else:
+        # Change the distance from the star at the directory main
+        pl_root = ROOT + directory + "/main/"
+        update_distance(pl_root+"pl.in", distance, mass * massOfJupyter)
+        copyfile(ROOT+"particle.in", ROOT + directory + "/main/" + "pl.in")
+        copyfile(ROOT+"particle.in", ROOT + directory + "/unperturbed/" + "pl.in")
+    os.remove("particle.in")
 
-    print "***"
+    print "-----------------------------------------------------------------------------------------------"
+    print "Planet mass: " + str(mass) + " Jupiter mass = " + str(mass * massOfJupyter) + " solar mass unit"
     print "Distance ratio: " + str(distance)
-    print "The dir " + directory + " is ready"
-    print "All the necessary files are into the dir " + directory + "/[main, unperturbed]. You can now run the integrations in these directories."
-    print "***"
+    print "The dir " + directory + " is ready."
+    print "You can now run the integrations with swifter."
+    print "The 'unpertubed' and 'tail' subdirs require some editing."
+    print "-----------------------------------------------------------------------------------------------"
     pass
