@@ -118,7 +118,7 @@ def create():
 
     Usage: create()
     """
-    
+
     # Mass of Jupiter in solar mass
     massOfJupyter = 0.0009543
 
@@ -150,4 +150,22 @@ def create():
     print "You can now run the integrations with swifter."
     print "The 'unpertubed' and 'tail' subdirs require some editing."
     print "-----------------------------------------------------------------------------------------------"
+    pass
+
+def swifter_run(path="pm"):
+    """
+    Description: run swifter_bs integrator in over path* directorys
+
+    Usage: swifter_run()
+    """
+    import glob
+    from subprocess import call
+    dirs = glob.glob(path+"*")
+    for swifterDir in dirs:
+        print "Processing dir " + swifterDir + " ..."
+        os.chdir(swifterDir+'/main')
+        call('swifter_bs')
+        call('tool_follow')
+        call(['mv', 'follow.out', 'planet.dat'])
+        os.chdir('../..')
     pass
