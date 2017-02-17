@@ -169,3 +169,42 @@ def swifter_run(path="pm"):
         call(['mv', 'follow.out', 'planet.dat'])
         os.chdir('../..')
     pass
+
+def remove_star(fileName="pl.in"):
+    """
+    Description: remove the secondary star in the 'pl.in' file
+    """
+    # Read the file
+    fin = open(fileName, 'r')
+    lines = []
+    for line in fin:
+        lines.append(line)
+    fin.close()
+    # Update the file
+    lines[0] = "2\n"
+    del lines[4:7]
+    fout = open(fileName,'w')
+    fout.writelines(lines)
+    fout.close()
+    pass
+
+def swifter_run_unpertubed(path="pm"):
+    """
+    Description: run swifter_bs integrator in over path* directorys
+
+    Usage: swifter_run_unperturbed()
+    """
+    import glob
+    from subprocess import call
+    dirs = glob.glob(path+"*")
+    for swifterDir in dirs:
+        print "Processing dir " + swifterDir + " ..."
+        os.chdir(swifterDir+'/unperturbed')
+        # first remove the secondary star in the "pl.in" file
+        remove_star()
+        # then run the integration
+        call('swifter_bs')
+        call('tool_follow')
+        call(['mv', 'follow.out', 'planet.dat'])
+        os.chdir('../..')
+    pass
