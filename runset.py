@@ -208,3 +208,27 @@ def swifter_run_unpertubed(path="pm"):
         call(['mv', 'follow.out', 'planet.dat'])
         os.chdir('../..')
     pass
+
+def swifter_run_tail(path="pm"):
+    """
+    Description: run swifter_bs integrator in over path* directorys
+
+    Usage: swifter_run_tail()
+    """
+    import glob
+    from subprocess import call
+    dirs = glob.glob(path+"*")
+    for swifterDir in dirs:
+        print "Processing dir " + swifterDir + " ..."
+        os.chdir(swifterDir+'/tail')
+        if os.path.exists('../main/dump_pl1.bin'):
+            # first copy  the 'dump_pl1.bin' to 'pl.in' from '../main' directory
+            copyfile('../main/dump_pl1.bin', 'pl.in')
+            # then run the integration
+            call('swifter_bs')
+            call('tool_follow')
+            call(['mv', 'follow.out', 'planet.dat'])
+        else:
+            print "The dump_pl1 file does not exist"
+        os.chdir('../..')
+    pass
