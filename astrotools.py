@@ -72,6 +72,6 @@ def vplanet(distance, mass=0):
     import math
     solarMass = 2.959139768995959E-04
     velocity = math.sqrt( ( solarMass * ( 1. + mass ) ) / distance )
-    print "Mass of the planet:  " + str(mass) + " Solar Mass"
-    print "Velocity: " + str(velocity) + " AU / days"
+    #print "Mass of the planet:  " + str(mass) + " Solar Mass"
+    print "Initial velocity of the planet: " + str(velocity) + " AU / days"
     return velocity
