@@ -1,3 +1,29 @@
+"""
+Some tools to prepare the swifter runs.
+
+Cookbook
+
+0. First
+> import runset
+
+For a massless planet:
+---------------------
+1. Create the work directories
+   > runset.create(True)
+
+2. Run swifter_bs in the main thread
+   > runset.swifter_run()
+
+3. Run swifter_bs in the tail thread
+   > runset.swifter_run_tail0()
+
+4. Run swifter_bs in the unperturbed thread
+   > runset.swifter_run_unpertubed0()
+
+Then use the 'astrovis' module to visualize the orbits
+"""
+
+
 import os
 from shutil import copyfile
 
