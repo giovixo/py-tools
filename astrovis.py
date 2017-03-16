@@ -19,7 +19,7 @@ def plot(fileName):
     planetTrajectory = ascii.read(fileName)
     x = planetTrajectory['col3']
     y = planetTrajectory['col4']
-    pylab.plot(x, y, 'b', label='Planet orbit')
+    pylab.plot(x, y, 'b.', label='Planet orbit')
     pylab.show()
     pass
 

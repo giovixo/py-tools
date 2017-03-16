@@ -2,6 +2,13 @@
 Some tools to prepare the swifter runs.
 
 Cookbook
+=========
+
+!!! Warning; in this version you need first to edit this python script !!!
+For massive planets (30 Jupiter mass in this case):
+[directory, distance, mass] = mkdir("30", "0.50", dist, "0.0")
+Fore massless planets:
+[directory, distance, mass] = mkdir("00", "0.50", dist, "0.0")
 
 0. First
 > import runset
@@ -19,6 +26,20 @@ For a massless planet:
 
 4. Run swifter_bs in the unperturbed thread
    > runset.swifter_run_unpertubed0()
+
+For a massive planet:
+---------------------
+1. Create the work directories
+   > runset.create(True)
+
+2. Run swifter_bs in the main thread
+   > runset.swifter_run()
+
+3. Run swifter_bs in the tail thread
+   > runset.swifter_run_tail()
+
+4. Run swifter_bs in the unperturbed thread
+   > runset.swifter_run_unpertubed()
 
 Then use the 'astrovis' module to visualize the orbits
 """
@@ -195,8 +216,14 @@ def create(doLoop=False):
         print "-----------------------------------------------------------------------------------------------"
     else:
         # Loop over a parameter space
-        for dist in ["0.200", "0.212", "0.224", "0.236", "0.248", "0.260", "0.272", "0.284", "0.296", "0.308", "0.320", "0.332",  "0.344"]:
-            [directory, distance, mass] = mkdir("00", "0.50", dist, "0.0")
+        # Base distance for the case of co-rotanting planet and star
+        distBase = ["0.200", "0.212", "0.224", "0.236", "0.248", "0.260", "0.272", "0.284", "0.296", "0.308", "0.320", "0.332", "0.344"]
+        # Distances usefull to the case where panet and star are not co-rotating
+        # distAdd  = ["0.368", "0.392", "0.416", "0.440", "0.464", "0.488", "0.512", "0.536", "0.560", "0.584", "0.608", "0.632", "0.656"]
+        distAdd  = []
+        setOfDistances = distBase + distAdd
+        for dist in setOfDistances:
+            [directory, distance, mass] = mkdir("30", "0.50", dist, "0.0")
             print "-----------------------------------------------------------------------------------------------"
             print "PLANET CARD"
             print "Planet mass: " + str(mass) + " Jupiter mass = " + str(mass * massOfJupyter) + " solar mass unit"
