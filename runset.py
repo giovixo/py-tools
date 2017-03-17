@@ -223,7 +223,7 @@ def create(doLoop=False):
         distAdd  = []
         setOfDistances = distBase + distAdd
         for dist in setOfDistances:
-            [directory, distance, mass] = mkdir("30", "0.50", dist, "0.0")
+            [directory, distance, mass] = mkdir("01", "0.50", dist, "0.0")
             print "-----------------------------------------------------------------------------------------------"
             print "PLANET CARD"
             print "Planet mass: " + str(mass) + " Jupiter mass = " + str(mass * massOfJupyter) + " solar mass unit"
